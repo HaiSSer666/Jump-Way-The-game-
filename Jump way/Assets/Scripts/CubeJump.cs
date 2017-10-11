@@ -5,27 +5,20 @@ public class CubeJump : MonoBehaviour {
     public GameObject mainCube;
     private bool animate;
     private float compressSpeed = 1.0f;
+    private float startTime;
 
-    private void FixedUpdate()
+    private void FixedUpdate ()
     {
-        if(animate && mainCube.transform.localScale.y > 0.5f)
+        if (animate && mainCube.transform.localScale.y > 0.5f)
         {
             pressCube(compressSpeed);
-            //mainCube.transform.localPosition -= new Vector3(0.0f, compressSpeed * Time.deltaTime, 0.0f);
-            //mainCube.transform.localScale -= new Vector3(0.0f, compressSpeed * Time.deltaTime, 0.0f);
         }
         else if (!animate)
         {
-            if(mainCube.transform.localScale.y < 1.0f)
+            if (mainCube.transform.localScale.y < 1.0f)
             {
                 pressCube(-compressSpeed * 3.0f);
-                //mainCube.transform.localPosition += new Vector3(0.0f, compressSpeed * Time.deltaTime * 5.0f, 0.0f);
-                //mainCube.transform.localScale += new Vector3(0.0f, compressSpeed * Time.deltaTime * 5.0f, 0.0f);
             }
-            /*else if(mainCube.transform.localScale.y != 1.0f)
-            {
-                mainCube.transform.localScale += new Vector3(1.0f, 1.0f, 1.0f);
-            }*/
         }
     }
 
@@ -34,19 +27,38 @@ public class CubeJump : MonoBehaviour {
         if (mainCube.GetComponent<Rigidbody>())
         {
             animate = true;
+            startTime = Time.time;
         }
-        //mainCube.transform.position = new Vector3(mainCube.transform.position.x, mainCube.transform.position.y+0.5f, mainCube.transform.position.z);
 	}
 	
-	void OnMouseUp()
+	void OnMouseUp ()
     {
         if (mainCube.GetComponent<Rigidbody>())
         {
             animate = false;
+
+            //Jump
+            float force, startEndDiff;
+            startEndDiff = Time.time - startTime;
+            if (startEndDiff < 3.0f)
+            {
+                force = 150 * startEndDiff;
+            }
+            else
+            {
+                force = 300.0f;
+            }
+            if (force < 100.0f)
+            {
+                force = 100.0f;
+            }
+
+            mainCube.GetComponent<Rigidbody>().AddRelativeForce(mainCube.transform.up * force);
+            mainCube.GetComponent<Rigidbody>().AddRelativeForce(mainCube.transform.right * -force);
         }
     }
 
-    void pressCube(float force)
+    void pressCube (float force)
     {
         mainCube.transform.localPosition -= new Vector3(0.0f, force * Time.deltaTime, 0.0f);
         mainCube.transform.localScale -= new Vector3(0.0f, force * Time.deltaTime, 0.0f);
