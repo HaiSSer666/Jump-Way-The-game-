@@ -12,7 +12,7 @@ public class SpawnBlocks : MonoBehaviour {
     {
         targetPosition = new Vector3(Random.Range(2.7f, 3.7f), Random.Range(-3.0f, 0.0f), 1.7f);
         blockInstantiate = Instantiate(block, new Vector3(7.0f, -7.0f, 0.0f), Quaternion.identity) as GameObject;
-        blockInstantiate.transform.localScale = new Vector3(Random.Range(1.0f, 2.0f), blockInstantiate.transform.localScale.y, blockInstantiate.transform.localScale.z);
+        blockInstantiate.transform.localScale = new Vector3(RandomizeScale(), blockInstantiate.transform.localScale.y, blockInstantiate.transform.localScale.z);
 	}
 
     private void Update()
@@ -23,4 +23,17 @@ public class SpawnBlocks : MonoBehaviour {
         }
     }
 
+    float RandomizeScale ()
+    {
+        float rand;
+        if (Random.Range (0, 100) > 80)
+        {
+            rand = Random.Range(1.2f, 2.0f);
+        }
+        else
+        {
+            rand = Random.Range(1.2f, 1.5f);
+        }
+        return rand;
+    }
 }
