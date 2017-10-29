@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CubeJump : MonoBehaviour {
+public class CubeJump : MonoBehaviour
+{
     public GameObject mainCube;
     private bool animate;
     private float compressSpeed = 1.0f;
     private float startTime;
 
-    private void FixedUpdate ()
+    private void FixedUpdate()
     {
         if (animate && mainCube.transform.localScale.y > 0.5f)
         {
@@ -22,16 +23,16 @@ public class CubeJump : MonoBehaviour {
         }
     }
 
-    void OnMouseDown ()
+    void OnMouseDown()
     {
         if (mainCube.GetComponent<Rigidbody>())
         {
             animate = true;
             startTime = Time.time;
         }
-	}
-	
-	void OnMouseUp ()
+    }
+
+    void OnMouseUp()
     {
         if (mainCube.GetComponent<Rigidbody>())
         {
@@ -58,7 +59,7 @@ public class CubeJump : MonoBehaviour {
         }
     }
 
-    void pressCube (float force)
+    void pressCube(float force)
     {
         mainCube.transform.localPosition -= new Vector3(0.0f, force * Time.deltaTime, 0.0f);
         mainCube.transform.localScale -= new Vector3(0.0f, force * Time.deltaTime, 0.0f);
